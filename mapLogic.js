@@ -120,8 +120,8 @@ $.ajax('http://localhost:8086/geoserver/wfs', {
 });
 */
 $.ajax('data/radjur.geojson', {
-    dataType: 'json', // Ställ in till 'json' eftersom det är en lokal fil
-    success: handleJsonRadjur, // Använd samma hanteringsfunktion
+    dataType: 'json',
+    success: handleJsonRadjur,
     error: function(xhr, status, error) {
         console.error("Kunde inte ladda lokal GeoJSON-fil:", status, error);
     }
@@ -145,21 +145,12 @@ function radjurOnEachFeature(feature, layer) {
 	});
 }
 
-//Geoserver Web Feature Service for kantareller
-$.ajax('http://localhost:8086/geoserver/wfs', {
-	type: 'GET',
-	data: {
-		service: 'WFS',
-		version: '1.1.0',
-		request: 'GetFeature',
-		typename: 'sweden:kantareller',
-		//CQL_FILTER: "NAME_1 LIKE 'V%'",
-		srsname: 'EPSG:4326',
-		outputFormat: 'text/javascript',
-	},
-	dataType: 'jsonp',
-	jsonpCallback: 'callback:handleJsonKantareller',
-	jsonp: 'format_options'
+$.ajax('data/kantareller.geojson', {
+    dataType: 'json',
+    success: handleJsonKantareller,
+    error: function(xhr, status, error) {
+        console.error("Kunde inte ladda lokal GeoJSON-fil:", status, error);
+    }
 });
 
 var layerDataKantareller = new L.GeoJSON(null, {
@@ -181,21 +172,12 @@ function kantarellerOnEachFeature(feature, layer) {
 	});
 }
 
-//Geoserver Web Feature Service for trattisar
-$.ajax('http://localhost:8086/geoserver/wfs', {
-	type: 'GET',
-	data: {
-		service: 'WFS',
-		version: '1.1.0',
-		request: 'GetFeature',
-		typename: 'sweden:trattisar',
-		//CQL_FILTER: "NAME_1 LIKE 'V%'",
-		srsname: 'EPSG:4326',
-		outputFormat: 'text/javascript',
-	},
-	dataType: 'jsonp',
-	jsonpCallback: 'callback:handleJsonTrattisar',
-	jsonp: 'format_options'
+$.ajax('data/trattisar.geojson', {
+    dataType: 'json',
+    success: handleJsonTrattisar,
+    error: function(xhr, status, error) {
+        console.error("Kunde inte ladda lokal GeoJSON-fil:", status, error);
+    }
 });
 
 var layerDataTrattisar = new L.GeoJSON(null, {
@@ -321,21 +303,36 @@ function filterByYear(year, type) {
 	else if (type == "kantareller") layerDataKantareller.clearLayers();
 	else if (type == "trattisar") layerDataTrattisar.clearLayers();
 
-	$.ajax('http://localhost:8086/geoserver/wfs', {
-		type: 'GET',
-		data: {
-			service: 'WFS',
-			version: '1.1.0',
-			request: 'GetFeature',
-			typename: 'sweden:' + type,
-			CQL_FILTER: "year = " + year,
-			srsname: 'EPSG:4326',
-			outputFormat: 'text/javascript',
-		},
-		dataType: 'jsonp',
-		jsonpCallback: 'callback:handleJson' + String(type).charAt(0).toUpperCase() + String(type).slice(1),
-		jsonp: 'format_options'
-	});
+	loadLocalGeoJsonAndFilter(type, year)
+}
+
+function loadLocalGeoJsonAndFilter(type, year) {
+
+    var filename = 'data/' + type + '.geojson';
+    
+    $.ajax(filename, {
+        dataType: 'json', 
+        success: function(fullGeoJsonData) {
+            
+            var filteredFeatures = fullGeoJsonData.features.filter(function(feature) {
+
+                var targetYear = String(year); 
+                return String(feature.properties.year) === targetYear;
+            });
+
+            var filteredGeoJson = {
+                type: 'FeatureCollection',
+                features: filteredFeatures
+            };
+            
+            if type == "kantareller" handleJsonKantareller(filteredGeoJson);
+			else if type == "trattisar" handleJsonTrattisar(filteredGeoJson);
+			else handleJsonRadjur(filteredGeoJson)
+        },
+        error: function(xhr, status, error) {
+            console.error("Kunde inte ladda GeoJSON-fil:", filename, status, error);
+        }
+    });
 }
 
 // filtrera på intervall
@@ -350,21 +347,39 @@ function filterByInterval(from, to, type) {
 		from = temp;
 	}
 
-	$.ajax('http://localhost:8086/geoserver/wfs', {
-		type: 'GET',
-		data: {
-			service: 'WFS',
-			version: '1.1.0',
-			request: 'GetFeature',
-			typename: 'sweden:' + type,
-			CQL_FILTER: "year BETWEEN " + from + " AND " + to,
-			srsname: 'EPSG:4326',
-			outputFormat: 'text/javascript',
-		},
-		dataType: 'jsonp',
-		jsonpCallback: 'callback:handleJson' + String(type).charAt(0).toUpperCase() + String(type).slice(1),
-		jsonp: 'format_options'
-	});
+	loadLocalGeoJsonAndFilterRange(type, from, to)
+}
+
+function loadLocalGeoJsonAndFilterRange(type, from, to) {
+
+    var filename = 'data/' + type + '.geojson';
+    
+    $.ajax(filename, {
+        dataType: 'json', 
+        success: function(fullGeoJsonData) {
+            
+            var filteredFeatures = fullGeoJsonData.features.filter(function(feature) {
+                
+                var startYear = parseInt(from);
+                var endYear = parseInt(to);
+                
+                var featureYear = parseInt(feature.properties.year);
+                
+                return (featureYear >= startYear && featureYear <= endYear);
+            });
+
+            var filteredGeoJson = {
+                type: 'FeatureCollection',
+                features: filteredFeatures
+            };
+            if type == "kantareller" handleJsonKantareller(filteredGeoJson);
+			else if type == "trattisar" handleJsonTrattisar(filteredGeoJson);
+			else handleJsonRadjur(filteredGeoJson)
+        },
+        error: function(xhr, status, error) {
+            console.error("Kunde inte ladda GeoJSON-fil:", filename, status, error);
+        }
+    });
 }
 
 function addFilterControlBtn() {
