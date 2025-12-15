@@ -1,0 +1,255 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#map {
+	width: 100%;
+	height: 100vh;
+	z-index: 1;
+}
+
+#title {
+	position: absolute;
+	top: -10px;
+	right: 26%;
+	left: 26%;
+	color: black;
+	text-align: center;
+	background-color: rgba(255,255,255,0.9);
+	z-index: 2;
+	border-radius: 10px;
+	padding: 5px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.17);
+}
+
+.legend {
+	background-color: rgba(255,255,255,0.9);
+	border-radius: 10px;
+	bottom: 30px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	color: black;
+	font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	padding: 10px;
+	position: absolute;
+	right: 10px;
+	z-index: 800;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+	.legend h4 {
+		margin: 0 0 10px;
+	}
+
+	.legend div span {
+		border-radius: 50%;
+		display: inline-block;
+		height: 15px;
+		margin-right: 5px;
+		width: 15px;
+	}
+
+	.legend div div {
+		display: inline-block;
+		height: 5px;
+		margin-right: 5px;
+		width: 15px;
+	}
+
+/* ÄNDRA FÄRGEN FÖR EN VISS ART HÄR, ÄNDRA INTE ALPHA VÄRDET '0.8' OCH ALLT SOM HAR MED DEN ARTEN KOMMER ÄNDRAS FÖR HELA DOKUMENTET :D */
+.radjur {
+	background-color: rgba(110, 64, 10, 0.8);
+}
+
+.kantareller {
+	background-color: rgba(239, 239, 0, 0.8);
+}
+
+.trattisar {
+	background-color: rgba(255, 122, 0, 0.8);
+}
+
+.vag {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.filterControl {
+	z-index: 2;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: rgba(255,255,255,0.9);
+	display: inline-block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 10px;
+	padding: 5px;
+}
+
+.filterControlInner {
+	/*border-bottom:1px solid black;*/
+	/*background-color: rgba(255,255,255,0.5);*/
+	margin: 5px;
+	display: block;
+}
+
+	.filterControlInner select {
+		width: 45%;
+		margin-right: 5px;
+	}
+
+.filterControlBtn {
+	width: 100%;
+	background-color: rgba(255, 215, 94, 0.9);
+	border-radius: 5px;
+	text-decoration: none;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	margin-top: 10px;
+	height: 35px;
+}
+
+	.filterControlBtn:hover {
+		background-color: rgba(255, 225, 136, 0.9);
+		box-shadow: 4px 4px 5px rgba(0,0,0,0.2);
+		cursor: pointer;
+	}
+
+.bufferControl {
+	z-index: 2;
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	background-color: rgba(255,255,255,0.9);
+	display: inline-block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 10px;
+}
+
+.bufferControlInner {
+	display: block;
+	margin: 5px;
+}
+
+	.bufferControlInner select {
+		width: 49.5%;
+		height: 30px;
+	}
+
+.bufferControlInnerInner {
+	display: flex;
+	justify-content: space-evenly;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
+}
+
+.bufferControlDiv {
+	display: block;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+p {
+	border-bottom: 1px solid rgba(0,0,0,0.5);
+	text-align: center;
+}
+
+.bufferControlBtn {
+	width: 100%;
+	background-color: rgba(255, 215, 94, 0.9);
+	border-radius: 5px;
+	text-decoration: none;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	margin-top: 20px;
+	height: 35px;
+}
+
+	.bufferControlBtn:hover {
+		background-color: rgba(255, 225, 136, 0.9);
+		box-shadow: 4px 4px 5px rgba(0,0,0,0.2);
+		cursor: pointer;
+		border: 1px solid rgba(0, 0, 0, 0.5);
+	}
+
+.disabled {
+	cursor: not-allowed;
+}
+
+	.disabled:hover {
+		cursor: not-allowed;
+	}
+
+select:hover {
+	cursor: pointer;
+}
+
+label:hover {
+	cursor: pointer;
+}
+
+input:hover {
+	cursor: pointer;
+}
+
+.closeBtn {
+	width: 100%;
+	background-color: rgba(255, 32, 60, 0.8);
+	border-radius: 5px;
+	text-decoration: none;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	height: 35px;
+}
+
+	.closeBtn:hover {
+		background-color: rgba(255, 53, 78, 0.8);
+		box-shadow: 4px 4px 5px rgba(0,0,0,0.2);
+		cursor: pointer;
+		border: 1px solid rgba(0, 0, 0, 0.5);
+	}
+
+.openBufferToolBtn {
+	z-index: 2;
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	background-color: rgba(255,255,255,0.5);
+	height: 50px;
+	width: 50px;
+	display: inline-block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 10px;
+	border: 1px solid rgba(0,0,0,0.5);
+	text-align: center;
+	margin: auto;
+	font-size: 13px;
+	line-height: 25px;
+}
+
+	.openBufferToolBtn:hover {
+		cursor: pointer;
+		background-color: rgba(255,255,255,1);
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.39);
+	}
+
+.openFilterToolBtn {
+	z-index: 2;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background-color: rgba(255,255,255,0.5);
+	height: 50px;
+	width: 50px;
+	display: inline-block;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 10px;
+	border: 1px solid rgba(0,0,0,0.5);
+	text-align: center;
+	margin: auto;
+	font-size: 13px;
+	line-height: 25px;
+}
+
+	.openFilterToolBtn:hover {
+		cursor: pointer;
+		background-color: rgba(255,255,255,1);
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.39);
+	}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DVG508 Projekt</title>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<!--maptiler-->
+	<link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
+	<!--<script src="https://cdn.maptiler.com/leaflet-maptilersdk/v2.0.0/leaflet-maptilersdk.js"></script>-->
+	<script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.js"></script>
+
+	<link rel="stylesheet" href="style.css" />
+	<script src="mapLogic.js" defer></script>
+</head>
+<body>
+	<div id="map"></div>
+	<h1 id="title">Kartläggning av svampar och rådjur på Gotland</h1>
+
+	<div class="bufferControl">
+
+		<div id="1" class="bufferControlInner">
+			<p><b>Buffer och Närhets analys</b></p>
+			<div style="margin-bottom:10px;display:block;font-style:italic">Välj ett verktyg, justera inställningar, sedan klickar du på en punkt för att utföra analysen<br><span style="font-size:12px">Obs! Du kan närsomhelst ändra inställningarna för att göra en ny analys</span></div>
+
+
+			<!--<div style="margin:5px">hej</div>-->
+
+			<select id="tool" onchange="handleToolChange(this.value)">
+				<option value="choose" disabled selected>Välj typ av verktyg</option>
+				<option value="buffer">Buffer</option>
+				<option value="near">Närhets analys</option>
+			</select>
+
+			<select id="bufferDist" disabled=false>
+				<option value="choose" disabled selected>Välj buffer distans</option>
+				<option value="500">Buffer distans 500m</option>
+				<option value="1000">Buffer distans 1000m</option>
+				<option value="2000">Buffer distans 2000m</option>
+				<option value="5000">Buffer distans 5000m</option>
+			</select>
+
+
+		</div>
+		<div class="bufferControlInner">
+			<div class="bufferControlInnerInner">
+				<div style="float:left">
+					Välj ur checklistan till höger de lager du vill ska kunna detekteras av buffern / närhets analysen
+				</div>
+
+				<form id="bufferItems" style="width:50%">
+					<label><input type="checkbox" name="option" value="trattisar" checked=true> Trattisar</label><br>
+					<label><input type="checkbox" name="option" value="kantareller" checked=true> Kantareller</label><br>
+					<label><input type="checkbox" name="option" value="radjur" checked=true> Rådjur</label><br>
+					<label><input type="checkbox" name="option" value="vag" checked=true> Väg</label><br>
+				</form>
+			</div>
+		</div>
+		<div class="bufferControlInner">
+			<button id="clear" class="bufferControlBtn">Rensa selektioner</button>
+		</div>
+		<div id="2" class="bufferControlInner">
+			<button class="closeBtn" onClick="closeBufferTool()">Stäng verktyget</button>
+		</div>
+	</div>
+
+	<div class="openBufferToolBtn" onClick="openBufferTool()">Buffer verktyg</div>
+
+	<div id="map-legend" class="legend">
+		<h4 style="border-bottom:1px solid rgba(0,0,0,0.5);text-align:center;">Legend</h4>
+		<div><span class="radjur"></span> Rådjur</div>
+		<div><span class="kantareller"></span> Kantareller</div>
+		<div><span class="trattisar"></span> Trattkantareller</div>
+		<div><div class="vag"></div> Vägar</div>
+	</div>
+</body>
+</html>
