@@ -325,8 +325,8 @@ function loadLocalGeoJsonAndFilter(type, year) {
                 features: filteredFeatures
             };
             
-            if type == "kantareller" handleJsonKantareller(filteredGeoJson);
-			else if type == "trattisar" handleJsonTrattisar(filteredGeoJson);
+            if (type == "kantareller") handleJsonKantareller(filteredGeoJson);
+			else if (type == "trattisar") handleJsonTrattisar(filteredGeoJson);
 			else handleJsonRadjur(filteredGeoJson)
         },
         error: function(xhr, status, error) {
@@ -372,8 +372,8 @@ function loadLocalGeoJsonAndFilterRange(type, from, to) {
                 type: 'FeatureCollection',
                 features: filteredFeatures
             };
-            if type == "kantareller" handleJsonKantareller(filteredGeoJson);
-			else if type == "trattisar" handleJsonTrattisar(filteredGeoJson);
+            if (type == "kantareller") handleJsonKantareller(filteredGeoJson);
+			else if (type == "trattisar") handleJsonTrattisar(filteredGeoJson);
 			else handleJsonRadjur(filteredGeoJson)
         },
         error: function(xhr, status, error) {
