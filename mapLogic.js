@@ -208,7 +208,7 @@ function popup(feature, layer) {
 	var month = feature.properties.month;
 	var day = feature.properties.day;
 	var date = year + "-" + month + "-" + day;
-	var recordedBy = feature.properties.recordedby;
+	var recordedBy = feature.properties.recordedBy;
 	var popupContent, toolTipContent;
 	if (count == null || count =="") count = 1;
 
